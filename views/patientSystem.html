@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .topnav {
+            position: fixed;
+            width: 100%;
+            height: 15%;
+            overflow: hidden;
+            background-color: #ecebeb;
+        }
+        .topnav a {
+            float: left;
+            display: block;
+            color: black;
+            text-align: center;
+            padding: 30px 25px;
+            text-decoration: none;
+            font-size: 20px;
+        }
+        .topnav a:hover {
+            color: white;
+        }
+        .dropbtn {
+            border: none;
+            cursor: pointer;
+        }
+        .dropdown {
+            left: 600px;
+            position: relative;
+            display: inline-block;
+        }
+        .dropdown-content {
+            display: none;
+            position: relative;
+            right: 50px;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+
+        }
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+        .dropdown-content a:hover {
+            background-color: #70c8ee
+        }
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        .dropdown:hover .dropbtn {
+            background-color: #3e8e41;
+        }
+        .card1 {
+            background-color: white;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        .card2 {
+            background-color: white;
+            padding: 20px;
+            margin-top: 300px;
+        }
+        .row:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+        .footer {
+            color: white;
+            padding: 100px;
+            text-align: center;
+            background: #1e1a1a;
+            margin-top: 100px;
+            position: relative;
+        }
+        .footer_list1,.footer_list2,.footer_list3{
+            position: absolute;
+        }
+        .footer_list1{
+            left: 200px;
+            top: 60px;
+        }
+        .footer_list2{
+            left: 550px;
+            top: 70px;
+        }
+        .footer_list3{
+            left: 900px;
+            top: 60px;
+        }
+    </style>
+</head>
+<body>
+<div class="topnav">
+            <a href="#" id="reserve">预约挂号</a>
+            <a href="#" style="color: darkgray">消息管理</a>
+            <a href="#" id="self">个人中心</a>
+            <a href="#" style="color: darkgray">咨询中心</a>
+    <div class="dropdown">
+        <button class="dropbtn" >
+                <img src="../static/img/beij.jpg" alt="mdo" width="50" height="50">
+        </button>
+        <div class="dropdown-content">
+            <a href="http://localhost:8080/patientRegister">注册</a>
+            <a href="http://localhost:8080/patientLogin">登录</a>
+        </div>
+    </div>
+</div>
+<div class="pho">
+    <img src="../static/img/up_129.jpg" alt="mdo" width="1340">
+</div>
+<div class="row">
+    <div class="leftcolumn">
+        <div class="card1">
+            <h2>医疗机构依法执业自查管理办法解读</h2>
+            <h5>2018-09-13 </h5>
+            <div class="fakeimg" style="height:10px;float: left" >
+                <img src="../static/img/up_95.jpg" alt="mdo" width="550" height="300">
+            </div>
+            <div style="float: right;">
+            <p>近日，国家卫生健康委、国家中医药局联合印发了《医疗机构依法执业自查管理办法》<br>
+                （以下简称《办法》），自发布之日起实施。现对《办法》有关内容予以解读。<br>
+                　　一、《办法》的出台背景<br>党中央国务院高度重视医疗卫生行业综合监管，习近平总书记在2016年召开的全国卫生与<br>
+                健康大会上强调，要抓好综合监管等五项基本医疗卫生制度建设。2018年，经中央深改组审议通过，<br>
+                国务院办公厅印发《关于改革完善医疗卫生行业综合监管制度的指导意见》，要求健全机构自治、<br>
+                行业自律、政府监管、社会监督相结合的多元化综合监管体系，要求医疗卫生机构切实落实自我管理主体<br>
+                责任，自觉接受行业监管和社会监督。机构自治是综合监管的重要组成部分，开展自查<br>
+                整改是医疗机构落实主体责任的有效手段。为全面推进医疗卫生行业综合监管制度，督促指导医疗机构规<br>范开展自查，
+                切实落实依法执业自我管理主体责任，进一步规范执业行为，<br>
+                国家卫生健康委联合国家中医药局印发了《办法》。</p>
+            </div>
+        </div>
+        <div class="card2">
+            <h2>冬季养肾 八个动作锻炼护肾</h2>
+            <h5>2020-10-04 </h5>
+            <div class="fakeimg" style="height:10px;float: left" >
+                <img src="../static/img/up_91.jpg" alt="mdo" width="550" height="300">
+            </div>
+            <div style="float: right;">
+                <p>冬季对应的脏器是肾脏，肾为先天之本、生命之源，肾的机能强健，则可调节机体 适应严冬变<br>化, 否则就
+                    会使身体新陈代谢失调而发病。因此，冬季养生重点是 “养肾防寒”。养生强肾这<br>些小动作做起。
+                    掐跟腱内外侧跟腱的位置正好为太溪穴（足内侧，内踝后方与脚跟骨之间的凹<br>陷处）和昆仑穴（足外侧，
+                    外踝后方与跟腱之间的凹陷处），太溪穴是肾经的原穴，是汇聚 肾经元气<br>的“长江”，能增强肾功能；
+                    昆仑穴有调和气血、健肾强脊的功效。每天掐揉 两穴，每次3~5分钟，就<br>可起到补肾养生的效果。掐
+                    揉时可用对侧手的拇指,也可以使 用按摩棒或滑腻的木棒按揉，力度除<br>了要有酸胀感外，最好以有“麻
+                    感”为度。按摩脚心 中医认为，涌泉穴直通肾经，脚心的涌泉穴是浊<br>气下降的地方，经常按摩可益精补
+                    肾、防止早衰。具体方法是：临睡前用温水泡脚，用手互相擦热后，<br>用左手按摩右脚心，右手按摩左脚心，
+                    每边100下左右，以双脚搓热为宜。</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="footer">
+    <div class="footer_list1">
+        <div class="footer_img">
+            <img src="../static/img/end_1.png" alt="联系我们电话"></div>
+        <div class="contact_text">
+            联系电话:
+        </div>
+        <span class="contact_style">028-65784966</span>
+    </div>
+    <div class="footer_list2">
+        <div class="footer_img">
+            <img src="../static/img/end_2.png" alt="联系邮箱">
+        </div>
+        <div class="contact_text">
+            联系邮箱<span class="moble">：</span>
+        </div>
+        <span class="contact_style">
+                1272408710@qq.com
+            </span>
+    </div>
+    <div class="footer_list3">
+        <div class="footer_img">
+            <img src="../static/img/end_4.png" alt="办公地址">
+        </div>
+        <div class="contact_text">办公地址<span class="moble">：</span></div>
+        <span class="contact_style">xx省xx市xx大道xxx号xx号楼x楼</span>
+    </div>
+</div>
+<script>
+    $('#reserve').click(function(){
+        window.location.href="/patientReservate"
+    })
+    $('#self').click(function(){
+        window.location.href="/personalCenter"
+    })
+</script>
+</body>
+</html>

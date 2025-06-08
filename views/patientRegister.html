@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="../static/js/my.js"></script>
+    <style>
+        .img{
+            position: absolute;
+        }
+        .one{
+            background-color: white;
+            width: 330px;
+            height: 370px;
+            position:absolute;
+            left:530px;
+            top:150px;
+        }
+        #login:hover{
+            text-decoration: underline;
+            color: coral;
+        }
+        .a{
+            font-style:normal;
+           font-size: 30px;
+        }
+        .b{
+            position:absolute;
+            left: 50px;
+            top: 40px;
+        }
+        .c{
+            position:absolute;
+            left: 50px;
+            top: 77px;
+        }
+        .d{
+            position:absolute;
+            left: 50px;
+            top: 115px;
+        }
+        .e{
+            position:absolute;
+            left: 50px;
+            top: 150px;
+        }
+        .f{
+            position:absolute;
+            left: 50px;
+            top: 185px;
+        }
+        .g{
+            position:absolute;
+            left: 50px;
+            top: 220px;
+        }
+        .h{
+            position:absolute;
+            left: 140px;
+            top: 260px;
+        }
+        .i{
+            position:absolute;
+            left: 120px;
+            top: 310px;
+        }
+    </style>
+</head>
+<body>
+<div class="img">
+    <img  src="../static/img/up_1.jpg" alt="Pulpit rock" width="1350" height="650">
+</div>
+<fieldset class="one">
+    <legend class="a">患者注册页面:</legend>
+    <form>
+        <div class="b">
+            用户名:<input type="text" id="username" name="uname"><br>
+        </div>
+        <div class="c">
+            密 码：  <input type="password" id="password" name="upwd"><br>
+        </div>
+        <div class="d">
+            手机号:<input type="text" id="phonenumber" name="pnb"><br>
+        </div>
+        <div class="e">
+            地  址：<input type="text" id="address" name="ads"><br>
+        </div>
+        <div class="f">
+            性  别：<input type="radio" name="sex" value="男"> 男<input type="radio" name="sex" value="女"> 女<br>
+        </div>
+        <div class="g">
+            <label for="birth">出生日期：</label><input id="birth" type="date" value="2023-12-3"/>
+        </div>
+        <div class="h">
+            <input type="button" value="提交" id="btn" style="font-size: 20px">
+        </div>
+        <div id="login" class="i">已注册，去登录</div>
+    </form>
+</fieldset>
+<script>
+    $('#btn').click(function(){
+        var username = $('#username').val();
+        var password = $('#password').val();
+        var phonenumber = $('#phonenumber').val();
+        var address =$('#address').val();
+        var sex = $('input[name=sex]:checked').val();
+        var birth = $('#birth').val();
+        $.ajax({
+            url: '/dopregister', // 后端控制器路由地址
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify({ pname: username, ppwd: password,ppnb:phonenumber,padress:address,psex:sex,pbirth:birth}),
+            success: function(response) {
+                // 处理返回的JSON数据
+                alert("返回的数据："+response.message)
+                console.log(response)
+                if (response.code === 201) {
+                    //$('#result').html('<p>登录成功！</p>');
+                    window.location.href="/patientLogin"
+                } else {
+                    //$('#result').html('<p>登录失败：' + response.message + '</p>');
+                }
+            },
+            error: function(xhr, status, error) {
+                console.log('Error occurred: ' + error);
+            }
+        });
+    })
+    $('#login').click(function(){
+        window.location.href="/patientLogin"
+    })
+</script>
+</body>
+</html>

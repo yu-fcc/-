@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+        }
+        .lists {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            width: 25%;
+            background-color: #f1f1f1;
+            position: fixed;
+            height: 100%;
+            overflow: auto;
+        }
+        .list a {
+            display: block;
+            color: #000;
+            padding: 8px 16px;
+            text-decoration: none;
+        }
+        .list a.active {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .list a:hover:not(.active) {
+            background-color: #555;
+            color: white;
+        }
+        .img{
+            float: right;
+        }
+        .map{
+            font-size: 30px;
+        }
+        #a{
+            position: absolute;
+            left: 600px;
+            top:330px;
+        }
+        #b{
+            position: absolute;
+            left: 600px;
+            top:380px;
+        }
+        #c{
+            position: absolute;
+            left: 600px;
+            top:430px;
+        }
+        #d{
+            position: absolute;
+            left: 600px;
+            top:480px;
+        }
+        #e{
+            position: absolute;
+            left: 600px;
+            top:530px;
+        }
+        #f{
+            position: absolute;
+            left: 700px;
+            top:600px;
+        }
+    </style>
+</head>
+<body>
+    <ul class="lists">
+        <li class="list"><a class="active">个人信息</a></li>
+        <li class="list" id="reservate"><a>预约信息</a></li>
+        <li class="list" id="check"><a>查看检查单</a></li>
+        <li class="list" id="back"><a><<-返回首页</a></li>
+    </ul>
+    <div class="img">
+        <img  src="../static/img/up_1.jpg" alt="Pulpit rock" width="1025" height="250">
+    </div>
+    <ul class="map" style="list-style-type:disc;">
+        <li id="a">用户名：</li>
+        <li id="b">性别：</li>
+        <li id="c">手机号：</li>
+        <li id="d">出生日期：</li>
+        <li id="e">地址：</li>
+    </ul>
+    <script>
+        $(document).ready(function() {
+            // 发送AJAX请求到后端获取用户信息
+            $.ajax({
+                url: '/getone',  // 后端请求地址，根据实际情况修改
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    alert(data)
+                    $.each(data, function(index, patient) {
+                        var listItem1 = $('#a').append(patient.pname);
+                        var listItem2 = $('#b').append(patient.psex);
+                        var listItem3 = $('#c').append(patient.ppnb);
+                        var listItem4 = $('#d').append(patient.pbirth);
+                        var listItem5 = $('#e').append(patient.padress);
+                    });
+                },
+                error: function(xhr, status, error) {
+                    alert("出错了")
+                    // console.log('Error occurred: ' + error);
+                }
+            });
+        });
+        $('#reservate').click(function(){
+            window.location.href="/reservateInformation"
+        })
+        $('#check').click(function(){
+            window.location.href="/checkNone"
+        })
+        $('#back').click(function(){
+            window.location.href="/patientSystem"
+        })
+    </script>
+</body>
+</html>

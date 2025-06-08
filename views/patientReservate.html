@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="../static/js/my.js"></script>
+    <style>
+        .topnav {
+            position: absolute;
+            width: 100%;
+            height: 15%;
+            overflow: hidden;
+            background-color: #ecebeb;
+            top: -10px;
+            left: -2px;
+            opacity: 0.8;
+        }
+        .topnav a {
+            float: left;
+            display: block;
+            color: black;
+            text-align: center;
+            padding: 15px 10px;
+            text-decoration: none;
+            opacity: 2;
+        }
+        .topnav a:hover {
+            color: #2ac2b5;
+        }
+        .title{
+            position: absolute;
+            left: 600px;
+            opacity: 2;
+        }
+        .one{
+            background-color: white;
+            width: 380px;
+            height: 350px;
+            position:absolute;
+            left:510px;
+            top:150px;
+        }
+        .a{
+            font-style:normal;
+            font-size: 30px;
+        }
+        .b{
+            position:absolute;
+            left: 40px;
+            top: 50px;
+        }
+        .c{
+            position:absolute;
+            left: 40px;
+            top: 90px;
+        }
+        .d{
+            text-align: right;
+            line-height: 160%;
+            position:absolute;
+            left: 40px;
+            top: 130px;
+        }
+        .e{
+            position:absolute;
+            left: 170px;
+            top: 250px;
+        }
+    </style>
+</head>
+<body>
+<div class="topnav">
+    <a href="#" id="back"><h2><-返回首页</h2></a>
+    <h1 class="title">预约挂号</h1>
+</div>
+<div class="img">
+    <img  src="../static/img/up_2.jpg" alt="Pulpit rock" width="1355" height="650">
+</div>
+<fieldset class="one">
+    <legend class="a">预约页面:</legend>
+    <form>
+        <div class="b">
+            患者姓名：<input type="text" id="patientName" name="pname"><br>
+        </div>
+        <div class="c">
+            医生姓名：  <input type="text" id="doctorName" name="did"><br>
+        </div>
+        <div class="d">
+            预约时间:<input type="radio" name="time" value="08：00-09：00">08：00-09：00<input type="radio" name="time" value="09：00-10：00">09：00-10：00<br>
+                    <input type="radio" name="time" value="10：00-11：00">10：00-11：00<input type="radio" name="time" value="14：00-15：00">14：00-15：00<br>
+                    <input type="radio" name="time" value="15：00-16：00">15：00-16：00<input type="radio" name="time" value="16：00-17：00">16：00-17：00<br>
+        </div>
+        <div class="e">
+            <input type="button" value="提交" id="btn" style="font-size: 20px">
+        </div>
+    </form>
+</fieldset>
+<script>
+    $('#btn').click(function(){
+        var patientName = $('#patientName').val();
+        var doctorName = $('#doctorName').val();
+        var time = $('input[name=time]:checked').val();
+        $.ajax({
+            url: '/doreservate', // 后端控制器路由地址
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify({ name: patientName,dname:doctorName,time:time}),
+            success: function(response) {
+                // 处理返回的JSON数据
+                alert("返回的数据："+response.message)
+                console.log(response)
+                if (response.code === 204) {
+                } else {
+                }
+            },
+            error: function(xhr, status, error) {
+                console.log('Error occurred: ' + error);
+            }
+        });
+    })
+    $('#back').click(function(){
+        window.location.href="/patientSystem"
+    })
+</script>
+</body>
+</html>

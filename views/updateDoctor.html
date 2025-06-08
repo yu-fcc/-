@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="../static/js/my.js"></script>
+    <style>
+        .img{
+            position: absolute;
+        }
+        .one{
+            background-color: white;
+            width: 330px;
+            height: 350px;
+            position:absolute;
+            left:530px;
+            top:150px;
+        }
+        .a{
+            font-style:normal;
+            font-size: 30px;
+        }
+        .b{
+            position:absolute;
+            left: 50px;
+            top: 50px;
+        }
+        .c{
+            position:absolute;
+            left: 50px;
+            top: 90px;
+        }
+        .d{
+            position:absolute;
+            left: 50px;
+            top: 130px;
+        }
+        .e{
+            position:absolute;
+            left: 50px;
+            top: 170px;
+        }
+        .f{
+            position:absolute;
+            left: 140px;
+            top: 230px;
+        }
+    </style>
+</head>
+<body>
+<div class="img">
+    <img  src="../static/img/up_2.jpg" alt="Pulpit rock" width="1350" height="650">
+</div>
+<fieldset class="one">
+    <legend class="a">修改用户信息页面:</legend>
+    <form>
+        <div class="b">
+            医生ID：<input type="text" id="id" name="uid" value="{{.doctor.Id}}" readonly><br>
+        </div>
+        <div class="c">
+            用户名：<input type="text" id="username" name="uname" value="{{.doctor.Uname}}" ><br>
+        </div>
+        <div class="d">
+            手机号：<input type="text" id="phonenumber" name="pnb" value="{{.doctor.Pnb}}" ><br>
+        </div>
+        <div class="e">
+            性别：<input type="radio" name="sex" value="男">男<input type="radio" name="sex" value="女">女<br>
+        </div>
+        <div class="f">
+            <input type="button" value="提交" id="btn" style="font-size: 20px">
+        </div>
+    </form>
+</fieldset>
+<script>
+    $('#btn').click(function(){
+        var id = $('#id').val();
+        var ID =parseInt(id)
+        var username = $('#username').val();
+        var phonenumber = $('#phonenumber').val();
+        var sex = $('input[name=sex]:checked').val();
+        $.ajax({
+            url: '/doupdateusers', // 后端控制器路由地址
+            type: 'PUT',
+            dataType: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify({ id:ID,uname: username,pnb:phonenumber,usex:sex}),
+            success: function(response) {
+                // 处理返回的JSON数据
+                alert("返回的数据："+response.message)
+                console.log(response)
+                if (response.code === 203) {
+                    window.location.href="/doctorList"
+                } else {
+                }
+            },
+            error: function(xhr, status, error) {
+                console.log('Error occurred: ' + error);
+            }
+        });
+    })
+</script>
+</body>
+</html>

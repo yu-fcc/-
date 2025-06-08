@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https:////at.alicdn.com/t/c/font_3811024_g1nguph34r6.css">
+    <style>
+        .topnav {
+            position: absolute;
+            width: 100%;
+            height: 15%;
+            overflow: hidden;
+            background-color: #ece2e2;
+            top: -10px;
+            left: -2px;
+            opacity: 0.8;
+        }
+        .topnav a {
+            float: left;
+            display: block;
+            color: black;
+            text-align: center;
+            padding: 15px 10px;
+            text-decoration: none;
+            opacity: 3;
+        }
+        .topnav a:hover {
+            color: #e8cb13;
+        }
+        .title{
+            position: absolute;
+            left: 600px;
+            opacity: 3;
+        }
+        table{
+            position: absolute;
+            left: 150px;
+            top: 100px;
+            border-collapse: collapse;
+            width: 80%;
+        }
+        table,td,th{
+            border: 1px solid black;
+            height: 50px;
+        }
+        #list,#list1{
+            text-align: center;
+        }
+        #select{
+            position: absolute;
+            top: 40px;
+            left: 1000px;
+            border-radius:20px;
+        }
+        h3{
+            position: absolute;
+            top: 22px;
+            left: 950px;
+            color: #836cea;
+        }
+    </style>
+</head>
+<body>
+<div class="topnav">
+    <a href="#" id="back"><h2><-返回首页</h2></a>
+    <h1 class="title">预约信息表</h1>
+</div>
+<div class="pho">
+    <img src="../static/img/tp.webp" alt="mdo" width="1355" height="650">
+</div>
+    <h3><i class="iconfont icon-tiantianquan" id="icon" style="font-size: 35px;"></i></h3>
+    <input type="text" id="select" placeholder="搜索..." style="font-size: 25px;">
+<table>
+    <tr>
+        <th>预约编号</th>
+        <th>预约时间</th>
+        <th>患者名称</th>
+        <th>操作</th>
+    </tr>
+    <tr id="list">
+        <td id="id"></td>
+        <td id="time"></td>
+        <td id="name"></td>
+        <td id="way"></td>
+    </tr>
+    <tr id="list1">
+        <td id="id1"></td>
+        <td id="time1"></td>
+        <td id="name1"></td>
+        <td id="way1"></td>
+    </tr>
+</table>
+<script>
+    $(document).ready(function() {
+        // 发送AJAX请求到后端获取用户信息
+        $.ajax({
+            url: '/getallreservation', // 后端请求地址，根据实际情况修改
+            type: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                alert(data)
+                $.each(data, function(index, reservate) {
+                    var listItem = $('#list')
+                    var listItem1 = $('#id').append('<p><td>' + reservate.id + '</td></p>');
+                    var listItem2 = $('#time').append('<p><td>' + reservate.time + '</td></p>')
+                    var listItem3 = $('#name').append('<p><td>' + reservate.name + '</td></p>')
+                    var listItem4 = $('#way').append('<p><td>' + '</td></p>')
+                    var cheaking = $(' <a href="#">开检查单 </a>').on('click', function () {
+                            $.ajax({
+                                url: "/findbyname/"+reservate.id, // 后端请求地址，根据实际情况修改
+                                type: 'GET',
+                                dataType: 'json',
+                                success: function () {
+                                }
+                            })
+                        alert('开检查单: ' + reservate.id);
+                        $('#way').click(function() {
+                            window.location.href = "/checkCard"
+                        })
+                    });
+                    listItem4.append(cheaking);
+                        $('#icon').click(function() {
+                            listItem.remove();
+                        })
+                });
+            },
+            error: function(xhr, status, error) {
+                alert("出错了")
+            }
+        });
+    });
+    $('#back').click(function(){
+        window.location.href="/doctorSystem"
+    })
+    $('#icon').click(function(){
+        var patientName = $('#select').val();
+        $.ajax({
+            url: '/selectreservation', // 后端控制器路由地址
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify({pname:patientName}),
+            success: function(data) {
+                alert(data)
+                    $.each(data, function (index, reservate) {
+                        var listItem1 = $('#id1').append('<p><td>' + reservate.id + '</td></p>');
+                        var listItem2 = $('#time1').append('<p><td>' + reservate.time + '</td></p>')
+                        var listItem3 = $('#name1').append('<p><td>' + reservate.name + '</td></p>')
+                        var listItem4 = $('#way1').append('<p><td>' + '</td></p>')
+                        var cheaking = $(' <a href="#">开检查单 </a>').on('click', function () {
+                            alert('开检查单ID: ' + reservate.id);
+                            $.ajax({
+                                url: "/findbyname/"+reservate.id, // 后端请求地址，根据实际情况修改
+                                type: 'GET',
+                                dataType: 'json',
+                                success: function () {
+                                }
+                            })
+                            alert('开检查单: ' + reservate.id);
+                            $('#way').click(function() {
+                                window.location.href = "/checkCard"
+                            })
+                        });
+                        listItem4.append(cheaking);
+                    });
+            },
+                error: function (xhr, status, error) {
+                    alert("出错了")
+                }
+        })
+    })
+</script>
+</body>
+</html>

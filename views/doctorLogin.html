@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .img{
+            position: absolute;
+        }
+     .one{
+         background-color: white;
+         width: 270px;
+         height: 300px;
+         font-style:oblique;
+         border-style:inset;
+         border-color: #21bfb2;
+         border-width:10px;
+         position:absolute;
+         left:550px;
+         top:200px;
+     }
+        .a{
+            font-style:normal;
+            position:absolute;
+            left:40px;
+            top:5px;
+            font-size:30px;
+        }
+        .b{
+            position:absolute;
+            left:20px;
+            top:70px;
+        }
+        .c{
+            position:absolute;
+            left:20px;
+            top:120px;
+        }
+        .d{
+            position:absolute;
+            left:40px;
+            top:170px;
+        }
+        .e{
+            position:absolute;
+            left:120px;
+            top:220px;
+        }
+        .f{
+            position:absolute;
+            left:50px;
+            top:260px;
+        }
+        #register:hover{
+            text-decoration: underline;
+            color: #13baec;
+        }
+        #register:active{
+
+        }
+    </style>
+</head>
+<body>
+<div class="img">
+    <img  src="../static/img/up_3.jfif" alt="Pulpit rock" width="1350" height="650">
+</div>
+<div class="one">
+    <form>
+        <div class="a">医生登录系统</div>
+        <div class="b">
+            用户名:<input type="text" id="username" name="username"><br>
+        </div>
+        <div class="c">
+            密码： <input type="password" id="password" name="password"><br>
+        </div>
+        <div class="d">
+            <input type="radio" id="doctor" name="identity" value="医生">医生<input type="radio" id="patient" name="identity" value="患者">患者<input type="radio" id="manager" name="identity" value="管理员">管理员<br>
+        </div>
+        <div class="e">
+            <input type="button" value="登录" id="btn">
+        </div>
+        <div class="f" id="register">还没有账号，马上去注册</div>
+        <div id="chose"></div>
+</form>
+</div>
+<script>
+    $('#btn').click(function() {
+        var username = $('#username').val();
+        var password = $('#password').val();
+        alert(username)
+        alert(password)
+        $.ajax({
+            url: '/dodlogin', // 后端控制器路由地址
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify({uname: username, upwd: password}),
+            success: function (response) {
+                // 处理返回的JSON数据
+                alert("返回的数据：" + response.message)
+                console.log(response)
+                if (response.code === 200 ){
+                    $('#result').html('<p>登录成功！</p>');
+                    window.location.href="/doctorSystem"
+                } else {
+                    $('#result').html('<p>登录失败：' + response.message + '</p>');
+                }
+            },
+            error: function (xhr, status, error) {
+                console.log('Error occurred: ' + error);
+            }
+        });
+    })
+   $('#register').click(function(){
+       window.location.href="/doctorRegister"
+    })
+</script>
+</body>
+</html>

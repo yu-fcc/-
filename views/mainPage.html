@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .img{
+            position: absolute;
+        }
+        .a{
+            position:absolute;
+            left: 600px;
+        }
+        .b{
+            position:absolute;
+            top: 80px;
+            left: 660px;
+            text-decoration: underline;
+            color: #98bf21;
+        }
+        .c{
+            position:absolute;
+            top: 130px;
+            left: 610px;
+        }
+        .d{
+            position:absolute;
+            top: 190px;
+            left: 660px;
+        }
+        .e{
+            position:absolute;
+            top:250px;
+            left: 590px;
+        }
+        .f{
+            position:absolute;
+            top: 330px;
+            left: 370px;
+            text-align: center;
+            line-height: 40px;
+        }
+    </style>
+</head>
+<body>
+<div class="img">
+    <img  src="../static/img/tp1.webp" alt="Pulpit rock" width="1350" height="650">
+</div>
+    <h1 class="a">在线就诊系统</h1>
+    <div id="in"><h4 class="b">进入>>></h4></div>
+    <h2 class="c">地址：A座xxxx</h2>
+    <h4 class="d" id="on">联系我们</h4>
+    <h2 class="e">在线就诊网服务介绍</h2>
+    <h3 class="f">在线就诊系统（www.chinafamilydoctor.cn）是一个一站式医疗综合<br>服务平台，包含了线上预约挂号、咨询，线下医院就诊绿色通道的问医模式，<br>致力于改善就医通道，真正解决人们挂号难、看病难、检查难、手术难、<br>住院难等问题。我们为客户提供全程医疗贴心服务，打造家庭专属的五星级医疗管家</h3>
+ <script>
+    $('#in').click(function(){
+        window.location.href="/patientLogin"
+    });
+ </script>
+</body>
+</html>

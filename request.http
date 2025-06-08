@@ -1,0 +1,17 @@
+PUT http://localhost:8080/updateUser
+Content-Type: application/json
+
+{
+  "id": 1,
+  "uname": "苏大夫",
+  "upwd": "1234567"
+}
+###
+DELETE http://localhost:8080/deleteUser/2
+###
+POST http://localhost:8080/showlist
+Content-Type: application/json
+
+{ "pagenum": 1,
+  "pagesize": 10
+}

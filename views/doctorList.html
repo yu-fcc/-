@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https:////at.alicdn.com/t/c/font_3811024_g1nguph34r6.css">
+    <style>
+        .topnav {
+            position: absolute;
+            width: 100%;
+            height: 15%;
+            overflow: hidden;
+            background-color: #ece2e2;
+            top: -10px;
+            left: -2px;
+            opacity: 0.8;
+        }
+        .topnav a {
+            float: left;
+            display: block;
+            color: black;
+            text-align: center;
+            padding: 15px 10px;
+            text-decoration: none;
+            opacity: 3;
+        }
+        .topnav a:hover {
+            color: #e8cb13;
+        }
+        .title{
+            position: absolute;
+            left: 600px;
+            opacity: 3;
+        }
+        #select{
+            position: absolute;
+            top: 40px;
+            left: 1000px;
+            border-radius:20px;
+        }
+        h3{
+            position: absolute;
+            top: 22px;
+            left: 950px;
+            color: #836cea;
+        }
+        table{
+            position: absolute;
+            left: 150px;
+            top: 100px;
+            border-collapse: collapse;
+            width: 80%;
+        }
+        table,td,th{
+            border: 1px solid black;
+            height: 50px;
+        }
+        #user-list,#user-list1{
+            text-align: center;
+        }
+        ul.pagination {
+            display: inline-block;
+            padding: 0;
+            margin: 0;
+            position: absolute;
+            top: 550px;
+            left: 500px;
+            font-size: 20px;
+        }
+        ul.pagination li {display: inline;}
+
+        ul.pagination li a {
+            color: black;
+            float: left;
+            padding: 8px 16px;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        ul.pagination li a.active {
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 5px;
+        }
+
+        ul.pagination li a:hover:not(.active) {background-color: #ddd;}
+    </style>
+</head>
+<body>
+<div class="topnav">
+    <a href="#" id="back"><h2><-返回首页</h2></a>
+    <h1 class="title">医生信息表</h1>
+</div>
+<div class="pho">
+    <img src="../static/img/tp.webp" alt="mdo" width="1355" height="650">
+</div>
+<h3><i class="iconfont icon-tiantianquan" id="icon" style="font-size: 35px;"></i></h3>
+<input type="text" id="select" placeholder="搜索..." style="font-size: 25px;">
+<table>
+    <tr>
+        <th>用户ID</th>
+        <th>用户名</th>
+        <th>电话号码</th>
+        <th>性别</th>
+        <th>操作</th>
+        <th>操作</th>
+    </tr>
+    <tr id="user-list">
+        <td id="id"></td>
+        <td id="name"></td>
+        <td id="phone"></td>
+        <td id="sex"></td>
+        <td id="update"></td>
+        <td id="delete"></td>
+    </tr>
+    <tr id="user-list1">
+        <td id="id1"></td>
+        <td id="name1"></td>
+        <td id="phone1"></td>
+        <td id="sex1"></td>
+        <td id="update1"></td>
+        <td id="delete1"></td>
+    </tr>
+</table>
+<ul class="pagination">
+    <li><a id="prePage">«</a></li>
+    <li><a class="active" href="#" id="currentPage">1</a></li>
+    <li><a href="#">2</a></li>
+    <li><a href="#"></a></li>
+    <li><a id="nextPage">»</a></li>
+</ul>
+<script>
+
+    $(document).ready(function() {
+        // 发送AJAX请求到后端获取用户信息
+        // $.ajax({
+        //     url: '/getlist', // 后端请求地址，根据实际情况修改
+        //     type: 'GET',
+        //     dataType: 'json',
+        //     contentType: 'application/json',
+        //      data: JSON.stringify({pagesize:10,pagenum:1}),
+        //     success: function (pagination) {
+        //         alert(pagination.data)
+        // $('#prePage').click(function(){
+        //     pagenum = pagenum-1
+        // })
+        // $('#nextPage').click(function(){
+        //     pagenum = pagenum+1
+        // })
+        $.ajax({
+                    url:"/showlist",
+                    type:"POST",
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    data: JSON.stringify({pagesize:10,pagenum:1}),
+            success: function(pagination) {
+                $.each(pagination.data, function (index, doctor) {
+                    var listItem = $('#user-list')
+                    var listItem1 = $('#id').append('<p><td>' + doctor.id + '</td></p>');
+                    var listItem2 = $('#name').append('<p><td>' + doctor.uname + '</td></p>')
+                    var listItem3 = $('#phone').append('<p><td>' + doctor.pnb + '</td></p>')
+                    var listItem4 = $('#sex').append('<p><td>' + doctor.usex + '</td></p>')
+                    var listItem5 = $('#update').append('<p><td>' + '</td></p>');
+                    var listItem6 = $('#delete').append('<p><td>' + '</td></p>');
+                    var editLink = $(' <a href="#">修改 </a>').on('click', function () {
+                        alert('修改用户 ID: ' + doctor.id);
+                        window.location.href="/updateusers/"+doctor.id
+                    });
+                    var deleteLink = $(' <a href="#"> 删除</a>').on('click', function () {
+                        alert('删除用户 ID: ' + doctor.id);
+                        $.ajax({
+                            url: "/deleteDoctor/" + doctor.id,
+                            type: "DELETE",
+                            success: function (response) {
+                                alert("返回的数据：" + response.message)
+                                console.log(response)
+                                if (response.code === 202){
+                                    //如果删除成功，则移除对应的列表项
+                                    listItem.remove();
+                                }else {
+                                }
+                            }
+                        })
+                    });
+                    listItem5.append(editLink);
+                    listItem6.append(deleteLink);
+                    $('#icon').click(function() {
+                        listItem.remove();
+                    })
+                })
+            },
+                    error: function(xhr, status, error) {
+                        alert("出错了")
+                    }
+        })
+        //     },
+        // });
+    })
+
+    $('#icon').click(function(){
+        var doctorName = $('#select').val();
+        $.ajax({
+            url: '/selectdoctor', // 后端控制器路由地址
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify({dname:doctorName}),
+            success: function(data) {
+                alert(data)
+                $.each(data, function (index, doctor) {
+                    var listItem = $('#user-list1')
+                    var listItem1 = $('#id1').append('<p><td>' + doctor.id + '</td></p>');
+                    var listItem2 = $('#name1').append('<p><td>' + doctor.uname + '</td></p>')
+                    var listItem3 = $('#phone1').append('<p><td>' + doctor.pnb + '</td></p>')
+                    var listItem4 = $('#sex1').append('<p><td>' + doctor.usex + '</td></p>')
+                    var listItem5 = $('#update1').append('<p><td>' + '</td></p>');
+                    var listItem6 = $('#delete1').append('<p><td>' + '</td></p>');
+                    var editLink = $(' <a href="#">修改 </a>').on('click', function () {
+                        alert('修改用户 ID: ' + doctor.id);
+                        window.location.href="/updateusers/"+doctor.id
+                    });
+                    var deleteLink = $(' <a href="#"> 删除</a>').on('click', function () {
+                        alert('删除用户 ID: ' + doctor.id);
+                        $.ajax({
+                            url: "/deleteDoctor/" + doctor.id,
+                            type: "DELETE",
+                            success: function (response) {
+                                alert("返回的数据：" + response.message)
+                                console.log(response)
+                                if (response.code === 202){
+                                    //如果删除成功，则移除对应的列表项
+                                    listItem.remove();
+                                }else {
+                                }
+                            }
+                        })
+                    });
+                    listItem5.append(editLink);
+                    listItem6.append(deleteLink);
+                    $('#icon').click(function() {
+                        listItem.remove();
+                    })
+                });
+            },
+            error: function (xhr, status, error) {
+                alert("出错了")
+            }
+        })
+    })
+    $('#back').click(function() {
+        window.location.href="managerSystem"
+    })
+</script>
+</body>
+</html>

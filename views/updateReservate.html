@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="../static/js/my.js"></script>
+    <style>
+        .one{
+            background-color: white;
+            width: 380px;
+            height: 350px;
+            position:absolute;
+            left:510px;
+            top:150px;
+        }
+        .a{
+            font-style:normal;
+            font-size: 30px;
+        }
+        .b{
+            position:absolute;
+            left: 40px;
+            top: 50px;
+        }
+        .c{
+            position:absolute;
+            left: 40px;
+            top: 90px;
+        }
+        .d{
+            position:absolute;
+            left: 40px;
+            top: 130px;
+        }
+        .e{
+            text-align: right;
+            line-height: 160%;
+            position:absolute;
+            left: 40px;
+            top: 170px;
+        }
+        .f{
+            position:absolute;
+            left: 170px;
+            top: 270px;
+        }
+    </style>
+</head>
+<body>
+<div class="img">
+    <img  src="../static/img/up_2.jpg" alt="Pulpit rock" width="1350" height="650">
+</div>
+<fieldset class="one">
+    <legend class="a">修改预约信息:</legend>
+    <form>
+        <div class="b">
+            预约ID：<input type="text" id="id" name="id" value="{{.reservate.Id}}" readonly><br>
+        </div>
+        <div class="c">
+            患者姓名：<input type="text" id="patientName" name="pname" value="{{.reservate.Name}}"><br>
+        </div>
+        <div class="d">
+            医生姓名：  <input type="text" id="doctorName" name="did" value="{{.reservate.DoctorName}}"><br>
+        </div>
+        <div class="e">
+            预约时间:<input type="radio" name="time" value="08：00-09：00">08：00-09：00<input type="radio" name="time" value="09：00-10：00">09：00-10：00<br>
+            <input type="radio" name="time" value="10：00-11：00">10：00-11：00<input type="radio" name="time" value="14：00-15：00">14：00-15：00<br>
+            <input type="radio" name="time" value="15：00-16：00">15：00-16：00<input type="radio" name="time" value="16：00-17：00">16：00-17：00<br>
+        </div>
+        <div class="f">
+            <input type="button" value="提交" id="btn" style="font-size: 20px">
+        </div>
+    </form>
+</fieldset>
+<script>
+    $('#btn').click(function(){
+        var id = $('#id').val();
+        var ID =parseInt(id)
+        var patientName = $('#patientName').val();
+        var doctorName = $('#doctorName').val();
+        var time = $('input[name=time]:checked').val();
+        $.ajax({
+            url: '/updatereservate', // 后端控制器路由地址
+            type: 'PUT',
+            dataType: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify({id:ID, name: patientName,dname:doctorName,time:time}),
+            success: function(response) {
+                // 处理返回的JSON数据
+                alert("返回的数据："+response.message)
+                console.log(response)
+                if (response.code === 203) {
+                    window.location.href="/reservateInformation"
+                } else {
+                }
+            },
+            error: function(xhr, status, error) {
+                console.log('Error occurred: ' + error);
+            }
+        });
+    })
+</script>
+</body>
+</html>

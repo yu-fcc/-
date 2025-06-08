@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {background-image:url('C:/Users/yujingwen0616/Pictures/Saved Pictures/beij.jpg')}
+        .one{position: fixed;}
+    </style>
+</head>
+<body>
+<form class="one" >
+    用户名：<input type="text" id="username" name="username"><br>
+    密码：<input type="password" id="password" name="password"><br>
+    <input type="button" value="提交" id="btn">
+</form>
+<script>
+    $('#btn').click(function() {
+        var username = $('#username').val();
+        var password = $('#password').val();
+        alert(username)
+        alert(password)
+        $.ajax({
+            url: '/login', // 后端控制器路由地址
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify({username: username, password: password}),
+            success: function (response) {
+                // 处理返回的JSON数据
+                alert("返回的数据：" + response.message)
+                console.log(response)
+                if (response.success) {
+                    $('#result').html('<p>登录成功！</p>');
+                } else {
+                    $('#result').html('<p>登录失败：' + response.message + '</p>');
+                }
+            },
+            error: function (xhr, status, error) {
+                console.log('Error occurred: ' + error);
+            }
+        });
+    });
+</script>
+</body>
+</html>

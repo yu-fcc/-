@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https:////at.alicdn.com/t/c/font_3811024_g1nguph34r6.css">
+    <style>
+        .topnav {
+            position: absolute;
+            width: 100%;
+            height: 15%;
+            overflow: hidden;
+            background-color: #ece2e2;
+            top: -10px;
+            left: -2px;
+            opacity: 0.8;
+        }
+        .topnav a {
+            float: left;
+            display: block;
+            color: black;
+            text-align: center;
+            padding: 15px 10px;
+            text-decoration: none;
+            opacity: 3;
+        }
+        .topnav a:hover {
+            color: #e8cb13;
+        }
+        .title{
+            position: absolute;
+            left: 600px;
+            opacity: 3;
+        }
+        #select{
+            position: absolute;
+            top: 40px;
+            left: 1000px;
+            border-radius:20px;
+        }
+        h3{
+            position: absolute;
+            top: 22px;
+            left: 950px;
+            color: #836cea;
+        }
+        table{
+            position: absolute;
+            left: 150px;
+            top: 100px;
+            border-collapse: collapse;
+            width: 80%;
+        }
+        table,td,th{
+            border: 1px solid black;
+            height: 50px;
+        }
+        #list,#list1{
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div class="topnav">
+    <a href="#" id="back1"><h2><-返回首页</h2></a>
+    <h1 class="title">患者检查信息表</h1>
+</div>
+<div class="pho">
+    <img src="../static/img/tp.webp" alt="mdo" width="1355" height="650">
+</div>
+<h3><i class="iconfont icon-tiantianquan" id="icon" style="font-size: 35px;"></i></h3>
+<input type="text" id="select" placeholder="搜索..." style="font-size: 25px;">
+<table>
+    <tr>
+        <th>检查单ID</th>
+        <th>患者名称</th>
+        <th>检查名称</th>
+        <th>检查价格</th>
+        <th>检查地址</th>
+        <th>操作</th>
+        <th>操作</th>
+    </tr>
+    <tr id="list">
+        <td id="id"></td>
+        <td id="name"></td>
+        <td id="checkName"></td>
+        <td id="price"></td>
+        <td id="address"></td>
+        <td id="edit"></td>
+        <td id="delete"></td>
+    </tr>
+    <tr id="list1">
+        <td id="id1"></td>
+        <td id="name1"></td>
+        <td id="checkName1"></td>
+        <td id="price1"></td>
+        <td id="address1"></td>
+        <td id="edit1"></td>
+        <td id="delete1"></td>
+    </tr>
+</table>
+<script>
+    $(document).ready(function () {
+        // 发送AJAX请求到后端获取用户信息
+        $.ajax({
+            url: '/getcheckresult', // 后端请求地址，根据实际情况修改
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                alert(data)
+                $.each(data, function (index, checkpatient) {
+                    var listItem = $('#list')
+                    var listItem1 = $('#id').append('<p><td>' + checkpatient.id + '</td></p>')
+                    var listItem2 = $('#name').append('<p><td>' + checkpatient.pname + '</td></p>')
+                    var listItem3 = $('#price').append('<p><td>' + checkpatient.price + '</td></p>')
+                    var listItem4 =  $('#checkName').append('<p><td>' + checkpatient.name + '</td></p>')
+                    var listItem5 = $('#address').append('<p><td>' + checkpatient.adress + '</td></p>')
+                    var listItem6 =  $('#edit').append('<p><td>' +  '</td></p>')
+                    var listItem7 =  $('#delete').append('<p><td>' +  '</td></p>')
+                    var editLink = $(' <a href="#">修改 </a>').on('click', function () {
+                        alert('修改' + checkpatient.id +'号患者检查单');
+                        $.ajax({
+                            url: "/getpname/" + checkpatient.id,
+                            type: "GET",
+                            success: function () {
+                                window.location.href="/updatecheckresult"
+                            }
+                        })
+                    });
+                    var deleteLink = $(' <a href="#"> 删除</a>').on('click', function () {
+                        alert('删除' + checkpatient.id +'号患者检查单');
+                        $.ajax({
+                            url: "/deletecheckresult/" + checkpatient.id,
+                            type: "DELETE",
+                            success: function () {
+                                    //如果删除成功，则移除对应的列表项
+                                listItem.remove();
+                            }
+                        })
+                    });
+                    listItem6.append(editLink);
+                    listItem7.append(deleteLink);
+                    $('#icon').click(function() {
+                        listItem.remove();
+                    })
+                });
+            },
+            error: function (xhr, status, error) {
+                alert("出错了")
+                // console.log('Error occurred: ' + error);
+            }
+        });
+    });
+    $('#back1').click(function(){
+        window.location.href="/doctorSystem"
+    })
+    $('#icon').click(function(){
+        var information = $('#select').val();
+        $.ajax({
+            url: '/selectcheckresult', // 后端控制器路由地址
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify({information:information}),
+            success: function(data) {
+                alert(data)
+                $.each(data, function (index, checkpatient) {
+                    var listItem = $('#list1')
+                    var listItem1 = $('#id1').append('<p><td>' + checkpatient.id + '</td></p>')
+                    var listItem2 = $('#name1').append('<p><td>' + checkpatient.pname + '</td></p>')
+                    var listItem3 = $('#price1').append('<p><td>' + checkpatient.price + '</td></p>')
+                    var listItem4 =  $('#checkName1').append('<p><td>' + checkpatient.name + '</td></p>')
+                    var listItem5 = $('#address1').append('<p><td>' + checkpatient.adress + '</td></p>')
+                    var listItem6 =  $('#edit1').append('<p><td>' +  '</td></p>')
+                    var listItem7 =  $('#delete1').append('<p><td>' +  '</td></p>')
+                    var editLink = $(' <a href="#">修改 </a>').on('click', function () {
+                        alert('修改' + checkpatient.id +'号患者检查单');
+                        $.ajax({
+                            url: "/getpname/" + checkpatient.id,
+                            type: "GET",
+                            success: function () {
+                                window.location.href="/updatecheckresult"
+                            }
+                        })
+                    });
+                    var deleteLink = $(' <a href="#"> 删除</a>').on('click', function () {
+                        alert('删除' + checkpatient.id +'号患者检查单');
+                        $.ajax({
+                            url: "/deletecheckresult/" + checkpatient.id,
+                            type: "DELETE",
+                            success: function () {
+                                //如果删除成功，则移除对应的列表项
+                                listItem.remove();
+                            }
+                        })
+                    });
+                    listItem6.append(editLink);
+                    listItem7.append(deleteLink);
+                });
+            },
+            error: function (xhr, status, error) {
+                alert("出错了")
+
+            }
+        })
+    })
+</script>
+</body>
+</html>
